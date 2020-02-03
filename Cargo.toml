@@ -1,0 +1,16 @@
+[package]
+name = "disco"
+version = "0.1.0"
+authors = ["Krisztian Papp <fejlesztes@letscode.hu>"]
+edition = "2018"
+
+[dependencies]
+rocket = "0.4.2"
+mysql = "16"
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+
+[dependencies.rocket_contrib]
+version = "0.4.2"
+default-features = false
+features = ["mysql_pool"]
