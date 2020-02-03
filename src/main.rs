@@ -7,10 +7,12 @@ extern crate serde_json;
 
 use std::borrow::Borrow;
 
+use rocket_contrib::serve::StaticFiles;
 use rocket_contrib::databases::mysql::Conn;
 
 use crate::core::entity::Post;
 use crate::core::repository::get_post_by_id;
+use rocket_contrib::templates::Template;
 
 pub mod core {
     pub mod entity {
@@ -49,10 +51,17 @@ fn main() {
         serde_json::to_string(get_post_by_id(&mut *conn, id.as_str()).borrow()).unwrap()
     }
 
+    #[get("/")]
+    fn index() -> Template {
+        Template::render("index", {})
+    }
+
     #[database("mysql")]
     struct MySQLDbConnection(Conn);
 
     rocket::ignite()
+        .attach(Template::fairing())
         .attach(MySQLDbConnection::fairing())
-        .mount("/", routes![post]).launch();
+        .mount("/", StaticFiles::from("dist"))
+        .mount("/", routes![post, index]).launch();
 }

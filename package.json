@@ -1,0 +1,7 @@
+{
+  "name": "variables",
+  "version": "1.0.0",
+  "dependencies": {
+    "mini-css-extract-plugin": "latest"
+  }
+}
